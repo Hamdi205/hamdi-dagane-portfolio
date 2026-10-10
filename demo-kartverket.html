@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="no" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: Kartverket — Hamdi Dagane</title>
+<meta name="description" content="Interaktiv demo av hindringsrapportering og video fra Kartverket-prosjektet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="logo wordmark" aria-label="Ms. Dagane, til forsiden"><span class="ms">Ms.</span> Dagane</a>
+    <ul>
+      <li><a class="link" href="index.html">Om meg</a></li>
+      <li><a class="link" href="erfaring.html">Erfaring</a></li>
+      <li><a class="link active" href="prosjekter.html">Prosjekter</a></li>
+      <li><a class="link" href="ferdigheter.html">Ferdigheter</a></li>
+      <li><a class="link" href="kontakt.html">Kontakt</a></li>
+      </ul>
+    <button class="theme-btn" id="themeBtn" aria-label="Bytt lys/mørk modus" title="Bytt lys/mørk modus">🌓</button>
+  </div>
+</nav>
+
+<main class="demo-page">
+<div class="wrap crumb"><a href="prosjekter.html">← Tilbake til prosjekter</a></div>
+<section style="padding-top:24px"><div class="wrap">
+<h3 class="demo-title reveal" style="margin-top:56px">Slik rapporterer du en hindring</h3>
+    <p class="demo-lead reveal">Prøv selv som pilot: velg punkt eller linje, tegn på kartet, og fyll ut skjemaet. Kartet er en forenklet illustrasjon, og rapportene du sender inn lagres ikke noe sted.</p>
+    <div class="kv reveal" id="kv">
+      <ol class="kv-steps" aria-label="Fremdrift">
+        <li data-step="1"><span>1</span>Velg verktøy</li>
+        <li data-step="2"><span>2</span>Tegn på kartet</li>
+        <li data-step="3"><span>3</span>Fyll ut skjema</li>
+        <li data-step="4"><span>4</span>Send inn</li>
+      </ol>
+      <div class="kv-grid">
+        <div class="kv-mapcol">
+          <div class="kv-tools">
+            <button class="kv-btn mint" id="kvPoint" aria-pressed="false">Punkt</button>
+            <button class="kv-btn mint" id="kvLine" aria-pressed="false">Linje</button>
+            <button class="kv-btn mint" id="kvHere">Nåværende posisjon</button>
+            <button class="kv-btn finish" id="kvFinish" hidden>Fullfør linje</button>
+          </div>
+          <div class="kv-map">
+            <svg id="kvMap" viewBox="0 0 640 440" role="img" aria-label="Illustrasjonskart. Klikk for å tegne et punkt eller en linje."></svg>
+          </div>
+          <div class="kv-legend">
+            <span><i style="background:#ff9800"></i>Under behandling</span>
+            <span><i style="background:#4caf50"></i>Godkjent</span>
+            <span><i style="background:#ff6b00"></i>Din tegning</span>
+          </div>
+          <p class="kv-hint" id="kvHint">Velg Punkt eller Linje for å starte.</p>
+        </div>
+
+        <div class="kv-side">
+          <div class="kv-card" id="kvFormCard" hidden>
+            <div class="kv-card-head">
+              <b>Registrer en hindring</b>
+              <small>Fyll inn hindringens detaljer nedenfor.</small>
+            </div>
+            <form id="kvForm" novalidate>
+              <p class="kv-warn" id="kvWarn" hidden><strong>⚠ Advarsel:</strong> <span id="kvWarnText"></span></p>
+              <label class="kv-field">Hindringens navn
+                <input id="kvName" maxlength="60" placeholder="f.eks. Høyspentledning, kran">
+              </label>
+              <label class="kv-field">Høyde (meter)
+                <input id="kvHeight" type="number" step="0.01" min="0" placeholder="f.eks. 2,5">
+              </label>
+              <label class="kv-field">Beskrivelse
+                <textarea id="kvDesc" rows="3" maxlength="300" placeholder="Beskriv hindringen, plassering, materiale osv."></textarea>
+              </label>
+              <p class="kv-err" id="kvErr" role="alert"></p>
+              <div class="kv-actions">
+                <button type="button" class="kv-btn red" id="kvCancel">Avbryt</button>
+                <button type="button" class="kv-btn orange" id="kvQuick">Hurtigknapp</button>
+                <button type="submit" class="kv-btn green">Send inn</button>
+              </div>
+              <p class="kv-note">Hurtigknappen lagrer bare posisjonen. Du kan fylle ut resten senere.</p>
+            </form>
+          </div>
+
+          <div class="kv-card">
+            <div class="kv-card-head"><b>Mine rapporter</b><small>Statusen oppdateres når en registerfører har behandlet rapporten.</small></div>
+            <ul class="kv-list" id="kvList"></ul>
+          </div>
+
+          <ol class="kv-log" id="kvLog" aria-live="polite"></ol>
+          <button class="kv-link" id="kvReset">Nullstill demoen</button>
+        </div>
+      </div>
+    </div>
+
+</div></section>
+</main>
+
+<footer>© <span id="year"></span> Hamdi Dagane · Kristiansand</footer>
+
+<script src="main.js"></script>
+<script src="data/kart-agder.js"></script>
+<script>
+(() => {
+  // Hindringsrapportering (forenklet etter Kartverket-prosjektet: punkt/linje, skjema, statuser)
+  const NS = 'http://www.w3.org/2000/svg';
+  const C = { 1: '#ff9800', 2: '#4caf50', draft: '#ff6b00' };
+  const STATUS_TEXT = { 1: 'Under behandling', 2: 'Godkjent' };
+  const SNAP = 14; // piksler, tilsvarer ca. 10 m i systemet
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const $ = (s) => document.querySelector(s);
+
+  const svg = $('#kvMap');
+  const el = (name, attrs = {}) => { const e = document.createElementNS(NS, name); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+  // Kart over Agder-kysten: ekte kystlinje, rutenett, steder og målestokk
+  const LON0 = 7.2, LON1 = 10.0, LAT0 = 58.1, LAT1 = 59.1;
+  const KM_LON = 111.32 * Math.cos(((LAT0 + LAT1) / 2) * Math.PI / 180), KM_LAT = 110.6;
+  const S = 640 / ((LON1 - LON0) * KM_LON); // piksler per km
+  const P = (lon, lat) => [(lon - LON0) * KM_LON * S, (LAT1 - lat) * KM_LAT * S];
+  const nb = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(1)).replace('.', ',');
+
+  const defs = el('defs');
+  const grad = el('linearGradient', { id: 'kvSea', x1: 0, y1: 0, x2: 0, y2: 1 });
+  grad.appendChild(el('stop', { offset: '0', 'stop-color': '#d9ebf3' }));
+  grad.appendChild(el('stop', { offset: '1', 'stop-color': '#b7d6e4' }));
+  defs.appendChild(grad);
+  svg.appendChild(defs);
+  svg.appendChild(el('rect', { x: 0, y: 0, width: 640, height: 440, fill: 'url(#kvSea)' }));
+
+  // Rutenett med koordinater
+  const grat = el('g', { stroke: '#ffffff', 'stroke-width': 1, 'stroke-opacity': .7 });
+  [7.5, 8, 8.5, 9, 9.5].forEach(lon => {
+    const x = P(lon, LAT0)[0];
+    grat.appendChild(el('line', { x1: x, y1: 0, x2: x, y2: 440 }));
+  });
+  [58.25, 58.5, 58.75].forEach(lat => {
+    const y = P(LON0, lat)[1];
+    grat.appendChild(el('line', { x1: 0, y1: y, x2: 640, y2: y }));
+  });
+  svg.appendChild(grat);
+  [7.5, 8, 8.5, 9, 9.5].forEach(lon => {
+    const t = el('text', { x: P(lon, LAT0)[0] + 4, y: 436, fill: '#6f8794', 'font-size': 11, 'font-family': 'system-ui, sans-serif' });
+    t.textContent = nb(lon) + '°Ø'; svg.appendChild(t);
+  });
+  [58.25, 58.5, 58.75].forEach(lat => {
+    const t = el('text', { x: 6, y: P(LON0, lat)[1] - 4, fill: '#6f8794', 'font-size': 11, 'font-family': 'system-ui, sans-serif' });
+    t.textContent = nb(lat) + '°N'; svg.appendChild(t);
+  });
+
+  // Landområder (kystlinje)
+  const landD = (window.KART_AGDER || []).map(ring =>
+    'M' + ring.map(([lon, lat]) => P(lon, lat).map(v => v.toFixed(1)).join(' ')).join('L') + 'Z'
+  ).join(' ');
+  svg.appendChild(el('path', { d: landD, fill: '#f6f4ec', stroke: '#9fb89a', 'stroke-width': 1.2, 'stroke-linejoin': 'round' }));
+
+  // Steder
+  const CITIES = [
+    ['Kristiansand', 7.996, 58.147], ['Lillesand', 8.379, 58.250], ['Grimstad', 8.593, 58.342],
+    ['Arendal', 8.772, 58.461], ['Tvedestrand', 8.935, 58.616], ['Risør', 9.237, 58.721], ['Kragerø', 9.406, 58.871],
+  ];
+  CITIES.forEach(([name, lon, lat]) => {
+    const [x, y] = P(lon, lat);
+    svg.appendChild(el('circle', { cx: x, cy: y, r: 3.5, fill: '#33475b', stroke: '#fff', 'stroke-width': 1.5 }));
+    const t = el('text', { x: x + 7, y: y + 4, fill: '#33475b', 'font-size': 12, 'font-weight': 600, 'font-family': 'system-ui, sans-serif', stroke: '#f6f4ec', 'stroke-width': 3, 'paint-order': 'stroke' });
+    t.textContent = name; svg.appendChild(t);
+  });
+  const [sx, sy] = P(9.25, 58.13);
+  const sea = el('text', { x: sx, y: sy, fill: '#4f7f97', 'font-size': 13, 'font-style': 'italic', 'font-family': 'system-ui, sans-serif' });
+  sea.textContent = 'Skagerrak'; svg.appendChild(sea);
+
+  // Målestokk og nordpil
+  const sb = el('g', { stroke: '#33475b', 'stroke-width': 2 });
+  sb.appendChild(el('line', { x1: 24, y1: 412, x2: 24 + 10 * S, y2: 412 }));
+  sb.appendChild(el('line', { x1: 24, y1: 407, x2: 24, y2: 417 }));
+  sb.appendChild(el('line', { x1: 24 + 10 * S, y1: 407, x2: 24 + 10 * S, y2: 417 }));
+  svg.appendChild(sb);
+  const sbl = el('text', { x: 24, y: 400, fill: '#33475b', 'font-size': 11, 'font-family': 'system-ui, sans-serif' });
+  sbl.textContent = '10 km'; svg.appendChild(sbl);
+  const north = el('g', { fill: '#33475b' });
+  north.appendChild(el('path', { d: 'M608 28 L614 46 L608 42 L602 46 Z' }));
+  const nt = el('text', { x: 608, y: 60, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, 'font-family': 'system-ui, sans-serif', fill: '#33475b' });
+  nt.textContent = 'N'; north.appendChild(nt);
+  svg.appendChild(north);
+
+  const layerSaved = el('g');
+  const layerDraft = el('g');
+  const layerHint = el('g');
+  svg.appendChild(layerSaved);
+  svg.appendChild(layerDraft);
+  svg.appendChild(layerHint);
+
+  // Eksisterende rapporter i systemet (eksempeldata)
+  const seedData = () => [
+    { id: 1, name: 'Kran ved havna', height: 85, desc: 'Midlertidig kran ved kaiområdet.', type: 'Point', pts: [P(7.99, 58.14)], status: 1 },
+    { id: 2, name: 'Høyspentlinje', height: 24, desc: 'Luftlinje langs kysten.', type: 'LineString', pts: [P(8.10, 58.22), P(8.45, 58.31), P(8.75, 58.42)], status: 2 },
+  ];
+  let saved = seedData();
+  let nextId = 3;
+  let mode = null;          // 'point' | 'line' | null
+  let draft = null;         // { type, pts }
+  let draftReady = false;   // true når skjemaet vises
+  let warnNear = null;      // rapport det er advarsel om
+
+  const pt = (e) => { const r = svg.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 640, (e.clientY - r.top) / r.height * 440]; };
+  const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  const nearPending = (p) => {
+    for (const o of saved) if (o.status === 1 && o.type === 'Point' && dist(o.pts[0], p) <= SNAP) return o;
+    return null;
+  };
+
+  function setStep(n) {
+    document.querySelectorAll('.kv-steps li').forEach(li => {
+      const s = Number(li.dataset.step);
+      li.classList.toggle('done', s < n);
+      li.classList.toggle('current', s === n);
+    });
+  }
+
+  function drawMap() {
+    layerSaved.innerHTML = '';
+    saved.forEach(o => {
+      const col = C[o.status];
+      if (o.type === 'Point') {
+        const c = el('circle', { cx: o.pts[0][0], cy: o.pts[0][1], r: 9, fill: o.name ? col : '#9e9e9e', stroke: '#fff', 'stroke-width': 3 });
+        c.appendChild(el('title')).textContent = `${o.name || 'Uten navn'} · ${STATUS_TEXT[o.status]}`;
+        layerSaved.appendChild(c);
+      } else {
+        const l = el('polyline', { points: o.pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: col, 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+        l.appendChild(el('title')).textContent = `${o.name || 'Uten navn'} · ${STATUS_TEXT[o.status]}`;
+        layerSaved.appendChild(l);
+      }
+    });
+    layerDraft.innerHTML = '';
+    if (draft) {
+      if (draft.type === 'Point') {
+        layerDraft.appendChild(el('circle', { cx: draft.pts[0][0], cy: draft.pts[0][1], r: 10, fill: C.draft, stroke: '#fff', 'stroke-width': 3 }));
+      } else {
+        layerDraft.appendChild(el('polyline', { points: draft.pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: C.draft, 'stroke-width': 4, 'stroke-dasharray': '8 6', 'stroke-linecap': 'round' }));
+        draft.pts.forEach(p => layerDraft.appendChild(el('circle', { cx: p[0], cy: p[1], r: 5, fill: '#fff', stroke: C.draft, 'stroke-width': 3 })));
+      }
+    }
+    layerHint.innerHTML = '';
+    if (warnNear && draft) {
+      layerHint.appendChild(el('circle', { cx: warnNear.pts[0][0], cy: warnNear.pts[0][1], r: SNAP + 6, fill: 'none', stroke: '#ffc107', 'stroke-width': 3, 'stroke-dasharray': '4 4' }));
+    }
+    svg.classList.toggle('idle', !mode && !draft);
+  }
+
+  function renderList() {
+    const list = $('#kvList');
+    if (!saved.length) { list.innerHTML = '<li class="empty">Ingen rapporter ennå.</li>'; return; }
+    list.innerHTML = saved.map(o => `
+      <li>
+        <span><b>${o.name ? esc(o.name) : 'Uten navn (hurtiglagret)'}</b></span>
+        <span class="kv-badge" style="background:${C[o.status]}">${STATUS_TEXT[o.status]}</span>
+      </li>`).join('');
+  }
+
+  const logEvent = (html) => {
+    const li = document.createElement('li');
+    const t = new Date().toLocaleTimeString('no', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    li.innerHTML = `<time>${t}</time>${html}`;
+    $('#kvLog').prepend(li);
+  };
+
+  function setHint(text) { $('#kvHint').textContent = text; }
+
+  function showForm(show) {
+    $('#kvFormCard').hidden = !show;
+    draftReady = show;
+    if (show) {
+      warnNear = draft.type === 'Point' ? nearPending(draft.pts[0]) : null;
+      $('#kvWarn').hidden = !warnNear;
+      $('#kvWarnText').textContent = warnNear ? `Det finnes allerede en ubehandlet rapport på dette punktet (${warnNear.name}). Du er fortsatt velkommen til å rapportere.` : '';
+      setStep(3);
+      setHint('Fyll ut skjemaet og send inn, eller bruk Hurtigknapp for å lagre bare posisjonen.');
+      $('#kvName').focus({ preventScroll: true });
+    } else {
+      warnNear = null;
+    }
+    $('#kvFinish').hidden = true;
+    drawMap();
+  }
+
+  function startDraft(type) {
+    mode = type === 'Point' ? 'point' : 'line';
+    draft = null; warnNear = null;
+    showForm(false);
+    $('#kvPoint').setAttribute('aria-pressed', String(mode === 'point'));
+    $('#kvLine').setAttribute('aria-pressed', String(mode === 'line'));
+    setStep(2);
+    setHint(mode === 'point' ? 'Klikk i kartet for å plassere punktet.' : 'Klikk i kartet for å legge til punkter på linjen. Trykk «Fullfør linje» når du er ferdig.');
+    $('#kvFinish').hidden = mode !== 'line';
+    $('#kvFinish').disabled = true;
+    drawMap();
+  }
+
+  function resetTools() {
+    mode = null;
+    $('#kvPoint').setAttribute('aria-pressed', 'false');
+    $('#kvLine').setAttribute('aria-pressed', 'false');
+    $('#kvFinish').hidden = true;
+  }
+
+  $('#kvPoint').addEventListener('click', () => startDraft('Point'));
+  $('#kvLine').addEventListener('click', () => startDraft('LineString'));
+
+  $('#kvHere').addEventListener('click', () => {
+    // Demo: bruker en fast posisjon i stedet for GPS
+    resetTools();
+    draft = { type: 'Point', pts: [P(8.30, 58.20)] };
+    logEvent('Nåværende posisjon ble brukt som punkt (i demoen er dette en fast posisjon).');
+    showForm(true);
+  });
+
+  $('#kvFinish').addEventListener('click', () => {
+    if (!draft || draft.pts.length < 2) return;
+    resetTools();
+    showForm(true);
+  });
+
+  svg.addEventListener('click', (ev) => {
+    if (!mode) return;
+    const p = pt(ev);
+    if (mode === 'point') {
+      draft = { type: 'Point', pts: [p] };
+      resetTools();
+      showForm(true);
+      return;
+    }
+    // Linje: legg til punkt
+    if (!draft) draft = { type: 'LineString', pts: [] };
+    draft.pts.push(p);
+    $('#kvFinish').disabled = draft.pts.length < 2;
+    drawMap();
+  });
+
+  $('#kvCancel').addEventListener('click', () => {
+    draft = null; resetTools(); showForm(false);
+    setStep(1); setHint('Velg Punkt eller Linje for å starte.');
+    logEvent('Rapporten ble avbrutt. Ingenting ble lagret.');
+    drawMap();
+  });
+
+  function save(status, quick) {
+    const name = $('#kvName').value.trim();
+    const height = Number($('#kvHeight').value);
+    const desc = $('#kvDesc').value.trim();
+    const err = $('#kvErr');
+    if (!quick) {
+      if (!name) { err.textContent = 'Skriv inn et navn på hindringen.'; $('#kvName').focus(); return; }
+      if (!$('#kvHeight').value || !(height > 0)) { err.textContent = 'Høyden må være et tall større enn 0.'; $('#kvHeight').focus(); return; }
+    }
+    err.textContent = '';
+    const o = { id: nextId++, name: quick ? '' : name, height: quick ? null : height, desc, type: draft.type, pts: draft.pts, status };
+    saved.unshift(o);
+    logEvent(quick
+      ? `Hurtiglagret posisjon. Rapporten venter på utfylling og får status <strong>${STATUS_TEXT[status]}</strong>.`
+      : `Rapporten <strong>${esc(name)}</strong> (${height} m) ble sendt inn og har status <strong>${STATUS_TEXT[status]}</strong>.`);
+    draft = null;
+    $('#kvForm').reset();
+    showForm(false);
+    setStep(4);
+    setHint('Rapporten vises på kartet med oransje farge. En registerfører skal behandle den før den blir godkjent.');
+    drawMap(); renderList();
+  }
+
+  $('#kvForm').addEventListener('submit', (ev) => { ev.preventDefault(); save(1, false); });
+  $('#kvQuick').addEventListener('click', () => save(1, true));
+
+  $('#kvReset').addEventListener('click', () => {
+    saved = seedData();
+    nextId = 3; draft = null; resetTools(); showForm(false);
+    $('#kvLog').innerHTML = '';
+    $('#kvErr').textContent = '';
+    setStep(1); setHint('Velg Punkt eller Linje for å starte.');
+    drawMap(); renderList();
+  });
+
+  setStep(1);
+  drawMap();
+  renderList();
+})();
+</script>
+</body>
+</html>

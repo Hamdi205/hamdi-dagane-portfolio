@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="no" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prosjekter — Hamdi Dagane</title>
+<meta name="description" content="Prosjekter fra Kartverket, GIS, praksis og algoritmer, med demoer og lenker til GitHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="logo wordmark" aria-label="Ms. Dagane, til forsiden"><span class="ms">Ms.</span> Dagane</a>
+    <ul>
+      <li><a class="link" href="index.html">Om meg</a></li>
+      <li><a class="link" href="erfaring.html">Erfaring</a></li>
+      <li><a class="link active" href="prosjekter.html">Prosjekter</a></li>
+      <li><a class="link" href="ferdigheter.html">Ferdigheter</a></li>
+      <li><a class="link" href="kontakt.html">Kontakt</a></li>
+      </ul>
+    <button class="theme-btn" id="themeBtn" aria-label="Bytt lys/mørk modus" title="Bytt lys/mørk modus">🌓</button>
+  </div>
+</nav>
+<main class="page-top">
+<section id="prosjekter">
+  <div class="wrap">
+    <p class="eyebrow reveal">Prosjekter</p>
+    <h2 class="section-title reveal">Det jeg har bygget</h2>
+    <p class="section-intro reveal">Tre prosjekter, med bilder, forklaringer og demoer du kan prøve selv.</p>
+    
+<article class="proj reveal" id="kartverket">
+  <div class="wrap-inner">
+    <span class="meta">Semesterprosjekt · Kartverket</span>
+    <h2>Obstacle-rapportering for luftrommet</h2>
+    <p>Et webbasert system for å rapportere og validere hindringer i luftrommet, slik at flysikkerheten blir bedre. Piloter melder inn hindringer på kartet. Registerførere behandler dem, og administratorer styrer brukere og arkiv.</p>
+    <p>Hver hindring får en status: under behandling, godkjent eller avslått. Avslåtte hindringer flyttes til arkivet, og admin kan gjenopprette dem.</p>
+    <p>Jeg bidro mest på backend, og var Scrum master for gruppa.</p>
+    <div class="pills"><span class="pill-tech">C#</span><span class="pill-tech">ASP.NET Core MVC</span><span class="pill-tech">.NET 9</span><span class="pill-tech">Entity Framework Core</span><span class="pill-tech">MariaDB</span><span class="pill-tech">Docker</span><span class="pill-tech">Razor</span><span class="pill-tech">Bootstrap 5</span><span class="pill-tech">Leaflet</span><span class="pill-tech">JavaScript</span><span class="pill-tech">MSTest</span><span class="pill-tech">GitHub Actions</span></div>
+    <div class="proj-links">
+      <a class="btn sm" href="https://github.com/JabirMAG/kartverket-obstacle" target="_blank" rel="noopener">GitHub →</a>
+      <a class="btn sm primary" href="demo-kartverket.html">Prøv hindringsrapportering →</a>
+    </div>
+  </div>
+</article>
+
+    
+<article class="proj reveal" id="nodhavn">
+  <span class="meta">Gruppeprosjekt · IS218</span>
+  <h2>Nødhavn i Norge</h2>
+  <p>Et webkart for beredskapsaktører som viser nødhavner langs kysten. Brukeren kan velge et punkt på kartet eller bruke egen posisjon, og få treff innenfor en valgt radius.</p>
+  <p>Søket gjøres med romlige spørringer i PostGIS, via Supabase. Vi jobbet også med romlig analyse i GeoPandas, og vi lærte mye om å bruke AI i utviklingen.</p>
+  <div class="demo-wrap">
+    <div class="video-frame">
+        <video controls playsinline preload="metadata" poster="media/nodhavn-poster.jpg">
+          <source src="media/nodhavn-demo.mp4" type="video/mp4">
+          Nettleseren din støtter ikke video.
+        </video>
+      </div>
+      <ul class="layer-list">
+        <li><b>Nødhavn (søkeresultat)</b>Viser havnene som treffer søket</li>
+        <li><b>Analyse per kommune</b>Fargelagt kart med antall nødhavn i hver kommune</li>
+        <li><b>Farleder og kommunegrenser</b>Egne kartlag som kan slås av og på</li>
+        <li><b>Søk rundt punkt</b>Klikk i kartet, velg radius, og se treffene</li>
+      </ul>
+  </div>
+  <div class="pills"><span class="pill-tech">JavaScript</span><span class="pill-tech">Leaflet</span><span class="pill-tech">Supabase</span><span class="pill-tech">PostgreSQL / PostGIS</span><span class="pill-tech">Node.js</span><span class="pill-tech">Express</span><span class="pill-tech">GeoJSON</span><span class="pill-tech">GeoPandas</span><span class="pill-tech">Jupyter</span><span class="pill-tech">HTML5 / CSS3</span><span class="pill-tech">OpenStreetMap</span><span class="pill-tech">AI-assistert utvikling</span></div>
+  <div class="proj-links">
+    <a class="btn sm" href="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt" target="_blank" rel="noopener">GitHub →</a>
+  </div>
+</article>
+
+    
+<article class="proj reveal" id="tutorlink">
+  <span class="meta">Algoritmer og datastrukturer · Gruppe 11</span>
+  <h2>TutorLink</h2>
+  <p>TutorLink er et system for å booke veiledere. Du søker i et emne, sorterer tutorene, booker en ledig tid, eller står på venteliste. Vi lærte at valg av datastruktur betyr mye: en lenket liste gir rask kø til ventelisten, og et binært søketre gir rask oppslag, så lenge det er balansert. Vi var et tett team på tre, og alle gjorde en stor del av arbeidet.</p>
+  
+  <div class="wrap">
+    <h3 class="demo-title reveal">Datastrukturer fra TutorLink</h3>
+    <p class="demo-lead reveal">En forenklet JavaScript-versjon av ventelisten og søketreet i prosjektet. Kjører i nettleseren din.</p>
+
+    <div class="demo-shell reveal">
+      <div class="demo-head">
+        <div class="seg" role="tablist" aria-label="Velg datastruktur">
+          <button role="tab" aria-selected="true" aria-controls="panel-queue" data-tab="queue">Venteliste</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-bst" data-tab="bst">Binært søketre</button>
+        </div>
+        <span class="pill" id="tabPill">Lenket liste</span>
+      </div>
+
+      <div id="panel-queue" role="tabpanel">
+        <div class="toolbar">
+          <input id="qName" class="field" placeholder="Navn på student (tom gir et eksempelnavn)" aria-label="Navn på student">
+          <button class="btn primary sm" id="qAdd">Legg til</button>
+          <button class="btn sm" id="qNext">Ta neste</button>
+          <button class="btn sm" id="qFind">Finn navn</button>
+          <button class="btn sm" id="qReset">Nullstill</button>
+        </div>
+        <div class="stage">
+          <div class="qtrack" id="qView" aria-live="polite"></div>
+        </div>
+        <div class="readout">
+          <span class="bigo" id="qBigo">Klar</span>
+          <div class="log" id="qLog">Legg til noen studenter. Hver operasjon viser hva den koster i tid.</div>
+        </div>
+      </div>
+
+      <div id="panel-bst" role="tabpanel" hidden>
+        <div class="toolbar">
+          <input id="bKey" class="field" placeholder="Navn, f.eks. Mina" aria-label="Navn til søketreet">
+          <button class="btn primary sm" id="bInsert">Sett inn</button>
+          <button class="btn sm" id="bSearch">Søk</button>
+          <button class="btn sm" id="bSorted">Sett inn sortert</button>
+          <button class="btn sm" id="bReset">Nullstill</button>
+        </div>
+        <div class="stage">
+          <div class="tree-stage" id="bView" aria-live="polite"></div>
+        </div>
+        <div class="readout">
+          <span class="bigo" id="bBigo">Klar</span>
+          <div class="log" id="bLog">Prøv «Sett inn sortert». Treet blir en kjede, og da mister vi O(log n).</div>
+        </div>
+      </div>
+
+      <div class="complexity">
+        <table>
+          <thead>
+            <tr><th>Operasjon</th><th>Lenket liste (kø)</th><th>Søketre, snitt</th><th>Søketre, verst</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Legg til</td><td><span class="cx good">O(1)</span></td><td><span class="cx good">O(log n)</span></td><td><span class="cx bad">O(n)</span></td></tr>
+            <tr><td>Ta ut først</td><td><span class="cx good">O(1)</span></td><td><span class="cx none">–</span></td><td><span class="cx none">–</span></td></tr>
+            <tr><td>Søk</td><td><span class="cx bad">O(n)</span></td><td><span class="cx good">O(log n)</span></td><td><span class="cx bad">O(n)</span></td></tr>
+            <tr><td>Minne</td><td><span class="cx mid">O(n)</span></td><td><span class="cx mid">O(n)</span></td><td><span class="cx mid">O(n)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="pills"><span class="pill-tech">Python</span><span class="pill-tech">Lenket liste</span><span class="pill-tech">Binært søketre</span><span class="pill-tech">Kompleksitetsanalyse (Big-O)</span><span class="pill-tech">Køer</span><span class="pill-tech">Git / GitHub</span><span class="pill-tech">JavaScript (demo)</span></div>
+  <div class="proj-links">
+    <a class="btn sm" href="https://github.com/erzamalici/algoritms-and-data-structures-gruppe-11" target="_blank" rel="noopener">GitHub →</a>
+  </div>
+</article>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="year"></span> Hamdi Dagane · Kristiansand</footer>
+
+<script src="main.js"></script>
+<script>
+(() => {
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const $ = (s) => document.querySelector(s);
+
+  // Tabs
+  const tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(o => o.setAttribute('aria-selected', String(o === t)));
+    const isQueue = t.dataset.tab === 'queue';
+    $('#panel-queue').hidden = !isQueue;
+    $('#panel-bst').hidden = isQueue;
+    $('#tabPill').textContent = isQueue ? 'Lenket liste' : 'Binært søketre';
+  }));
+
+  // ---- Lenket kø (speiler LinkedList/Queue i TutorLink) ----
+  class QNode { constructor(value) { this.value = value; this.next = null; } }
+  class LinkedQueue {
+    constructor() { this.head = null; this.tail = null; this.size = 0; }
+    enqueue(value) {
+      const n = new QNode(value);
+      if (!this.head) { this.head = this.tail = n; } else { this.tail.next = n; this.tail = n; }
+      this.size++;
+    }
+    dequeue() {
+      if (!this.head) return null;
+      const v = this.head.value;
+      this.head = this.head.next;
+      if (!this.head) this.tail = null;
+      this.size--;
+      return v;
+    }
+    find(name) {
+      let steps = 0, cur = this.head;
+      while (cur) {
+        steps++;
+        if (cur.value === name) return { index: steps - 1, steps };
+        cur = cur.next;
+      }
+      return { index: -1, steps };
+    }
+    toArray() { const out = []; for (let c = this.head; c; c = c.next) out.push(c.value); return out; }
+  }
+
+  const q = new LinkedQueue();
+  const sampleNames = ['Nora', 'Elias', 'Mina', 'Jon', 'Sara', 'Ali', 'Ingrid'];
+  let sampleIndex = 0;
+  const qView = $('#qView');
+  const qLog = $('#qLog');
+  const qBigo = $('#qBigo');
+
+  function renderQueue(hitIndex = -1) {
+    const items = q.toArray();
+    if (!items.length) { qView.innerHTML = '<div class="qempty">Køen er tom</div>'; return; }
+    qView.innerHTML = items.map((name, i) => {
+      const hit = i === hitIndex ? ' hit' : '';
+      const tags = (i === 0 ? '<span class="qtag top">FORAN</span>' : '') + (i === items.length - 1 ? '<span class="qtag bot">BAKERST</span>' : '');
+      const cell = `<div class="qcell"><div class="qcard c${i % 5}${hit}">${esc(name)}${tags}</div></div>`;
+      return i < items.length - 1 ? cell + '<span class="qarrow">→</span>' : cell;
+    }).join('');
+  }
+
+  const setBigo = (el, op, cost) => { el.innerHTML = `${esc(op)} · <b>${esc(cost)}</b>`; };
+
+  $('#qAdd').addEventListener('click', () => {
+    let name = $('#qName').value.trim();
+    if (!name) { name = sampleNames[sampleIndex++ % sampleNames.length]; }
+    q.enqueue(name);
+    $('#qName').value = '';
+    renderQueue();
+    setBigo(qBigo, 'enqueue', 'O(1)');
+    qLog.innerHTML = `La til <strong>${esc(name)}</strong> bakerst. Vi har en peker til halen, så vi trenger ikke å gå gjennom køen. Køen har nå ${q.size} elementer.`;
+  });
+
+  $('#qNext').addEventListener('click', () => {
+    if (!q.size) { qLog.textContent = 'Køen er tom.'; return; }
+    const name = q.dequeue();
+    renderQueue();
+    setBigo(qBigo, 'dequeue', 'O(1)');
+    qLog.innerHTML = `Tok ut <strong>${esc(name)}</strong> forrest. Vi flytter bare hode-pekeren, så det tar konstant tid.`;
+  });
+
+  $('#qFind').addEventListener('click', () => {
+    const name = $('#qName').value.trim();
+    if (!name) { qLog.textContent = 'Skriv et navn i feltet for å søke.'; return; }
+    const r = q.find(name);
+    renderQueue(r.index);
+    setBigo(qBigo, 'find', 'O(n)');
+    qLog.innerHTML = r.index >= 0
+      ? `Fant <strong>${esc(name)}</strong> på plass ${r.index + 1} etter ${r.steps} steg. I verste fall må vi gå gjennom hele listen.`
+      : `Fant ikke <strong>${esc(name)}</strong>. Vi sjekket alle ${r.steps} elementene.`;
+  });
+
+  $('#qReset').addEventListener('click', () => {
+    while (q.size) q.dequeue();
+    sampleIndex = 0;
+    renderQueue();
+    setBigo(qBigo, 'Klar', '');
+    qLog.textContent = 'Køen er nullstilt.';
+  });
+
+  renderQueue();
+
+  // ---- Binært søketre (speiler BST i TutorLink) ----
+  class BSTNode { constructor(key) { this.key = key; this.left = null; this.right = null; } }
+  class BST {
+    constructor() { this.root = null; }
+    insert(key) {
+      if (!this.root) { this.root = new BSTNode(key); return 'ok'; }
+      let cur = this.root;
+      for (;;) {
+        if (key === cur.key) return 'exists';
+        const side = key < cur.key ? 'left' : 'right';
+        if (!cur[side]) { cur[side] = new BSTNode(key); return 'ok'; }
+        cur = cur[side];
+      }
+    }
+    search(key) {
+      const path = [];
+      let cur = this.root;
+      while (cur) {
+        path.push(cur.key);
+        if (key === cur.key) return { found: true, path };
+        cur = key < cur.key ? cur.left : cur.right;
+      }
+      return { found: false, path };
+    }
+    depth() { const d = n => (n ? 1 + Math.max(d(n.left), d(n.right)) : 0); return d(this.root); }
+    // Inorder gir x-posisjon, dybde gir y-posisjon
+    layout() {
+      const out = []; let i = 0;
+      const walk = (n, depth) => {
+        if (!n) return;
+        walk(n.left, depth + 1);
+        out.push({ key: n.key, x: i++, y: depth, left: n.left && n.left.key, right: n.right && n.right.key });
+        walk(n.right, depth + 1);
+      };
+      walk(this.root, 0);
+      return out;
+    }
+  }
+
+  const tree = new BST();
+  const bView = $('#bView');
+  const bLog = $('#bLog');
+  const bBigo = $('#bBigo');
+  const GAP = 60, PAD = 28, R = 20, LEVEL = 74;
+  const DEPTH_COLORS = ['#1e5fa8', '#2f7fd1', '#4fa3e8', '#7bbcf0', '#2a6fb0'];
+
+  function renderTree(path = [], found = false) {
+    const pos = tree.layout();
+    if (!pos.length) { bView.innerHTML = '<div class="stage-empty">Treet er tomt. Sett inn et navn for å starte.</div>'; return; }
+    const byKey = new Map(pos.map(p => [p.key, p]));
+    const w = Math.max(360, pos.length * GAP + PAD * 2);
+    const h = tree.depth() * LEVEL + PAD * 2;
+    const X = p => PAD + p.x * GAP + GAP / 2;
+    const Y = p => PAD + p.y * LEVEL + R;
+    const onPath = new Set(path);
+    const pathEdge = (a, b) => {
+      const ia = path.indexOf(a), ib = path.indexOf(b);
+      return ia >= 0 && ib >= 0 && Math.abs(ia - ib) === 1;
+    };
+    let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Binært søketre">`;
+    pos.forEach(p => {
+      [p.left, p.right].forEach(childKey => {
+        if (!childKey) return;
+        const c = byKey.get(childKey);
+        const on = pathEdge(p.key, childKey) ? ' class="on"' : '';
+        svg += `<line${on} x1="${X(p)}" y1="${Y(p)}" x2="${X(c)}" y2="${Y(c)}"/>`;
+      });
+    });
+    pos.forEach(p => {
+      let cls = '';
+      if (onPath.has(p.key)) cls = found && p.key === path[path.length - 1] ? 'found' : 'path';
+      svg += `<circle class="${cls}" style="--c:${DEPTH_COLORS[p.y % DEPTH_COLORS.length]}" cx="${X(p)}" cy="${Y(p)}" r="${R}"/>`;
+      svg += `<text x="${X(p)}" y="${Y(p)}">${esc(p.key)}</text>`;
+    });
+    svg += '</svg>';
+    bView.innerHTML = svg;
+  }
+
+  $('#bInsert').addEventListener('click', () => {
+    const name = $('#bKey').value.trim();
+    if (!name) { bLog.textContent = 'Skriv et navn først.'; return; }
+    const r = tree.insert(name);
+    $('#bKey').value = '';
+    renderTree();
+    setBigo(bBigo, 'insert', 'O(log n) snitt');
+    bLog.innerHTML = r === 'exists'
+      ? `<strong>${esc(name)}</strong> finnes allerede, så verdien ble bare oppdatert.`
+      : `Satte inn <strong>${esc(name)}</strong>. Treet har nå dybde ${tree.depth()}.`;
+  });
+
+  $('#bSearch').addEventListener('click', () => {
+    const name = $('#bKey').value.trim();
+    if (!name) { bLog.textContent = 'Skriv navnet du vil søke etter i feltet.'; return; }
+    const r = tree.search(name);
+    renderTree(r.path, r.found);
+    setBigo(bBigo, 'search', `${r.path.length} steg`);
+    bLog.innerHTML = `Søk etter <strong>${esc(name)}</strong> brukte ${r.path.length} steg. ${r.found ? 'Fant navnet.' : 'Fant ikke navnet.'} Det er O(log n) i snitt, men O(n) hvis treet er en kjede.`;
+  });
+
+  $('#bSorted').addEventListener('click', () => {
+    const names = ['Ada', 'Bjørn', 'Cecilie', 'Dan', 'Eva', 'Fredrik'];
+    names.forEach(n => tree.insert(n));
+    renderTree();
+    setBigo(bBigo, 'dybde', String(tree.depth()));
+    bLog.innerHTML = `Satte inn navnene i sortert rekkefølge. Dybden er nå ${tree.depth()}, altså like mange nivåer som elementer. Treet er blitt en kjede, og søk tar O(n).`;
+  });
+
+  $('#bReset').addEventListener('click', () => {
+    tree.root = null;
+    renderTree();
+    setBigo(bBigo, 'Klar', '');
+    bLog.textContent = 'Treet er nullstilt. Prøv å sette inn navn i tilfeldig rekkefølge, og sammenlign med sortert innsetting.';
+  });
+
+  renderTree();
+})();
+</script>
+</body>
+</html>

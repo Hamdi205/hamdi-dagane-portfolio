@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="no" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ferdigheter — Hamdi Dagane</title>
+<meta name="description" content="Tekniske ferdigheter innen backend, frontend, sky, AI og ledelse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="logo wordmark" aria-label="Ms. Dagane, til forsiden"><span class="ms">Ms.</span> Dagane</a>
+    <ul>
+      <li><a class="link" href="index.html">Om meg</a></li>
+      <li><a class="link" href="erfaring.html">Erfaring</a></li>
+      <li><a class="link" href="prosjekter.html">Prosjekter</a></li>
+      <li><a class="link active" href="ferdigheter.html">Ferdigheter</a></li>
+      <li><a class="link" href="kontakt.html">Kontakt</a></li>
+      </ul>
+    <button class="theme-btn" id="themeBtn" aria-label="Bytt lys/mørk modus" title="Bytt lys/mørk modus">🌓</button>
+  </div>
+</nav>
+
+<main class="page-top">
+<section id="ferdigheter">
+  <div class="wrap">
+    <p class="eyebrow reveal">Ferdigheter</p>
+    <h2 class="section-title reveal">Teknisk bredde, med fokus på backend</h2>
+    <p class="section-intro reveal">Filtrer etter område for å se hva jeg kan.</p>
+    <div class="filters reveal" id="filters" role="group" aria-label="Filtrer ferdigheter"></div>
+    <div class="skill-grid" id="skillGrid"></div>
+    <p class="skill-note reveal">Systemdesign og arkitekturforståelse er på grunnleggende til middels nivå, og er et område jeg bygger videre på.</p>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="year"></span> Hamdi Dagane · Kristiansand</footer>
+
+<script src="main.js"></script>
+<script src="ferdigheter.js"></script>
+</body>
+</html>
