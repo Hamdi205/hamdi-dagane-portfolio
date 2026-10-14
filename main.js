@@ -71,29 +71,18 @@
   const bannerVideo = $('.banner.collage video.bg');
   if (bannerVideo && reduceMotion) { bannerVideo.pause(); bannerVideo.removeAttribute('autoplay'); }
 
-  // Broen i banneret: 3D-tilt mot musen, og et lite parallax-løft når man scroller.
+  // Bildet/videoen i banneret får et lite parallax-løft når man scroller.
   // Kun aktiv uten redusert bevegelse.
   const bannerEl = $('.banner.collage');
   const bridge = $('.banner.collage .bg');
   if (bannerEl && bridge && !reduceMotion) {
-    let tiltX = 0, tiltY = 0, shift = 0;
-    const paint = () => {
-      bridge.style.transform = `perspective(1000px) translateY(${shift}px) rotateY(${tiltX}deg) rotateX(${tiltY}deg) scale(1.12)`;
-    };
+    // Video skaleres lite, så den vises nær 1:1 og blir ikke unødvendig mykere
+    const zoom = bridge.tagName === 'VIDEO' ? 1.03 : 1.12;
     const onScroll = () => {
       const r = bannerEl.getBoundingClientRect();
-      shift = Math.max(Math.min(-r.top * 0.1, 14), -14);
-      paint();
+      const shift = Math.max(Math.min(-r.top * 0.1, 14), -14);
+      bridge.style.transform = `translateY(${shift}px) scale(${zoom})`;
     };
-    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      bannerEl.addEventListener('pointermove', (e) => {
-        const r = bannerEl.getBoundingClientRect();
-        tiltX = ((e.clientX - r.left) / r.width - 0.5) * 10;
-        tiltY = -((e.clientY - r.top) / r.height - 0.5) * 7;
-        paint();
-      });
-      bannerEl.addEventListener('pointerleave', () => { tiltX = 0; tiltY = 0; paint(); });
-    }
     addEventListener('scroll', onScroll, { passive: true });
   }
 })();

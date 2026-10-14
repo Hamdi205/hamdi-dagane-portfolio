@@ -41,6 +41,13 @@
   .no-intro .intro { display: none; }
   /* Portrettet ligger lenger ned over jobbfotoet på desktop */
   @media (min-width: 521px) { .banner.collage .portrait { bottom: -100px; } }
+  /* Mobil: lufta under banneret så portrettet ikke dekker teksten, og mindre menyknapper */
+  @media (max-width: 520px) {
+    #hero { padding-top: 96px; }
+    .nav .wrap { gap: 8px; }
+    .nav a.link { padding: 6px 7px; font-size: .84rem; }
+    .theme-btn { padding: 6px 8px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .intro { display: none; }
   }
