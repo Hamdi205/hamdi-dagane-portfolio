@@ -39,6 +39,8 @@
     100% { opacity: 0; visibility: hidden; }
   }
   .no-intro .intro { display: none; }
+  /* Portrettet ligger lenger ned over jobbfotoet på desktop */
+  @media (min-width: 521px) { .banner.collage .portrait { bottom: -100px; } }
   @media (prefers-reduced-motion: reduce) {
     .intro { display: none; }
   }
