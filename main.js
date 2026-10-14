@@ -7,7 +7,7 @@
   const root = document.documentElement;
   const storedTheme = () => { try { return localStorage.getItem('theme'); } catch (e) { return null; } };
   const saveTheme = (t) => { try { localStorage.setItem('theme', t); } catch (e) {} };
-  root.dataset.theme = storedTheme() || 'dark';
+  root.dataset.theme = storedTheme() || 'light';
   $('#themeBtn').addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
@@ -67,6 +67,10 @@
     lb.addEventListener('click', closeLb);
     document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeLb(); });
   }
+  // Videoen i banneret loopes. Med redusert bevegelse vises bare posteret.
+  const bannerVideo = $('.banner.collage video.bg');
+  if (bannerVideo && reduceMotion) { bannerVideo.pause(); bannerVideo.removeAttribute('autoplay'); }
+
   // Broen i banneret: 3D-tilt mot musen, og et lite parallax-løft når man scroller.
   // Kun aktiv uten redusert bevegelse.
   const bannerEl = $('.banner.collage');

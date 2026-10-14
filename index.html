@@ -1,6 +1,13 @@
 <!doctype html>
-<html lang="no" data-theme="dark">
+<html lang="no" data-theme="light">
 <head>
+<script>
+  // Intro vises bare første gang siden åpnes i økten, ikke ved hver reload
+  try {
+    if (sessionStorage.getItem('introSeen')) document.documentElement.classList.add('no-intro');
+    else sessionStorage.setItem('introSeen', '1');
+  } catch (e) {}
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamdi Dagane — Portefølje</title>
@@ -31,6 +38,7 @@
     0%, 68% { opacity: 1; visibility: visible; }
     100% { opacity: 0; visibility: hidden; }
   }
+  .no-intro .intro { display: none; }
   @media (prefers-reduced-motion: reduce) {
     .intro { display: none; }
   }
@@ -55,7 +63,7 @@
 </nav>
 
 <header class="banner collage">
-  <img class="bg" src="images/drammen-bro.jpg" alt="Bybrua over elva" loading="eager">
+  <video class="bg" src="media/drammen-drone.mp4" poster="images/drammen-drone-poster.jpg" autoplay muted loop playsinline preload="auto" role="img" aria-label="Flyfoto av bybrua over elva i Drammen"></video>
   <figure class="portrait"><img src="images/cafe.jpg" alt="Hamdi Dagane smiler i en kafé"></figure>
 </header>
 
