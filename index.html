@@ -43,6 +43,8 @@
   #om .highlight, #om .highlight:hover {
     transform: none; border-color: transparent; background: transparent; padding: 4px 0; cursor: default;
   }
+  /* Portrettet skal alltid ligge oppå jobbfotoet, uansett nettleser */
+  .banner.collage .portrait { z-index: 3; }
   /* Portrettet ligger lenger ned over jobbfotoet på desktop */
   @media (min-width: 521px) { .banner.collage .portrait { bottom: -100px; } }
   /* Mobil: lufta under banneret så portrettet ikke dekker teksten, og mindre menyknapper */
